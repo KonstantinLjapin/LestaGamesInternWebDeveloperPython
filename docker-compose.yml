@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+  fastapi:
+    build: .
+    stop_signal: SIGINT
+    container_name: fastapi
+    command: bash -c "chmod +x src/start.sh; ./src/start.sh"
+    volumes:
+      - ./dump/app:/usr/src/app
+    ports:
+      - "8000:8000"

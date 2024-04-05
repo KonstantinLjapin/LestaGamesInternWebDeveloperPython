@@ -1,0 +1,10 @@
+.env
+.venv/
+venv/
+
+#all
+docker-compose.yml
+dump/
+app_test_compose.sh
+Dockerfile
+README.md
