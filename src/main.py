@@ -17,6 +17,5 @@ async def create_upload_file(file: UploadFile):
         raise HTTPException(400, detail="Invalid document type")
     if file.size > 100 * 1024 * 1024:
         raise HTTPException(status_code=400, detail="File too large")
-    await extract_keywords(file)
-    return {"filename": file.filename}
-
+    out: dict = await extract_keywords(file)
+    return {"filename": out}
