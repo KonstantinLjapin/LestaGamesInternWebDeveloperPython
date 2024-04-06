@@ -1,8 +1,8 @@
 from typing import Annotated, Union
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel, Field
-from src.utils.text_worker import extract_keywords
+from src.utils.text_worker import extract_keywords, unbound_uf, extract_tfidf
 app = FastAPI()
 
 
@@ -17,5 +17,5 @@ async def create_upload_file(file: UploadFile):
         raise HTTPException(400, detail="Invalid document type")
     if file.size > 100 * 1024 * 1024:
         raise HTTPException(status_code=400, detail="File too large")
-    out: dict = await extract_keywords(file)
-    return {"filename": out}
+    html_content: str = await extract_tfidf(await unbound_uf(file))
+    return HTMLResponse(content=html_content, status_code=200)
